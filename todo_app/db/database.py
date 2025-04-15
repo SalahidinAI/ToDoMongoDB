@@ -1,10 +1,14 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from .models import User, Task
+from todo_app.config import config
+
+
+client = AsyncIOMotorClient(
+        config.MONGODB_URL
+)
+database = client[config.DB_NAME]
+
 
 async def init_db():
-    client = AsyncIOMotorClient(
-        'mongodb+srv://Salahidin:012456789Salahmon@cluster0.rxmbdp2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-    )
-    database = client['ToDo']
     await init_beanie(database=database, document_models=[User, Task])
